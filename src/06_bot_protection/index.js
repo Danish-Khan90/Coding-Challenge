@@ -1,0 +1,39 @@
+// One gaming company found out that they are losing money because some players are using scripts that are playing for 
+// players while they are sleeping.
+// 
+// From the access logs on their servers, developers can see which commands each player is sending. Analysing them
+// they discovered that those scripts are using the same sequence of commands all the time.
+// 
+// Your task is to cleaned up access logs to discover bots. Cleaned up access log of one player would look like an space
+// separated sequence of commands sent by the player. Detect if 3 sequential commands are repeated at least 2 times from
+// the cleaned up access log.
+// 
+// For example we have following access log:
+// 
+// left right fire jump fire back forward forward jump fire back left left right
+// 
+// we can see that the sequence "jump fire back" is repeated two times.
+
+exports.botProtection = function(data) {
+    const dataArr = data.split(" ");
+    for (let i = 0; i < dataArr.length; i++) {
+        let sequence = dataArr.slice(i,3);
+        const retCount = sequenceSearch(data, sequence);
+        if (retCount > 2) return "Duplicate found"; 
+    }
+
+    
+}
+
+function sequenceSearch (fullSeq, subseq) {
+    const fullSeqArr = fullSeq.split(" "); 
+    let count = 0;
+    for (let i=0; i < fullSeqArr.length; i++) {
+        for (let j = 0; j < 3; j++) {
+            if (fullSeqArr[i+j] !== subseq[j]) break; 
+        }
+        if (j === 3) count++; 
+    }
+
+    return count;
+}
